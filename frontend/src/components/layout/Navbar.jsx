@@ -18,9 +18,8 @@ export default function Navbar() {
   return (
     <nav data-testid="navbar" className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-slate-100">
       <div className="max-w-7xl mx-auto px-6 lg:px-8 flex items-center justify-between h-20">
-        <Link to="/" data-testid="navbar-logo" className="flex items-center gap-2 font-heading text-xl tracking-tight text-slate-900">
-          <img src="/athercolt-logo.png" alt="Aether Colt Logo" className="h-8 w-auto mix-blend-multiply" />
-          Aether Colt
+        <Link to="/" data-testid="navbar-logo" className="flex items-center">
+          <img src="/athercolt-logo.png" alt="Aether Colt Logo" className="h-8 w-auto" />
         </Link>
 
         {/* Desktop Nav */}
@@ -31,8 +30,8 @@ export default function Navbar() {
               to={link.path}
               data-testid={`nav-link-${link.label.toLowerCase()}`}
               className={`font-body text-sm font-semibold tracking-wide uppercase transition-colors duration-200 ${location.pathname === link.path
-                  ? "text-blue-700"
-                  : "text-slate-500 hover:text-slate-900"
+                ? "text-blue-700"
+                : "text-slate-500 hover:text-slate-900"
                 }`}
             >
               {link.label}
@@ -74,8 +73,8 @@ export default function Navbar() {
                   data-testid={`mobile-nav-${link.label.toLowerCase()}`}
                   onClick={() => setMobileOpen(false)}
                   className={`font-body text-sm font-semibold tracking-wide uppercase ${location.pathname === link.path
-                      ? "text-blue-700"
-                      : "text-slate-500"
+                    ? "text-blue-700"
+                    : "text-slate-500"
                     }`}
                 >
                   {link.label}

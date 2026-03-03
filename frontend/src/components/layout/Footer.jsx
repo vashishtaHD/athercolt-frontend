@@ -37,9 +37,8 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-8">
           {/* Brand */}
           <div className="lg:col-span-2">
-            <Link to="/" className="flex items-center gap-2 font-heading text-3xl tracking-tight text-white mb-6">
-              <img src="/athercolt-logo.png" alt="Aether Colt Logo" className="h-10 w-auto mix-blend-screen brightness-0 invert" />
-              Aether Colt
+            <Link to="/" className="inline-block mb-6">
+              <img src="/athercolt-logo-white.png" alt="Aether Colt Logo" className="h-16 w-auto" />
             </Link>
             <p className="font-body text-slate-400 text-sm leading-relaxed mt-6 max-w-sm">
               Building high-performance tech teams through world-class engineering services and elite talent recruitment.
