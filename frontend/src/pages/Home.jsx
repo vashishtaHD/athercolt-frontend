@@ -123,7 +123,7 @@ export default function Home() {
                 <div className="aspect-[4/3] overflow-hidden bg-slate-50">
                   <img
                     src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80"
-                    alt="Athercolt - High performance engineering"
+                    alt="Aether Colt - High performance engineering"
                     className="w-full h-full object-cover"
                   />
                 </div>
@@ -227,7 +227,7 @@ export default function Home() {
           >
             <img
               src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80"
-              alt="Athercolt workspace"
+              alt="Aether Colt workspace"
               className="w-full h-full object-cover"
             />
           </motion.div>

@@ -37,18 +37,19 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-8">
           {/* Brand */}
           <div className="lg:col-span-2">
-            <Link to="/" className="font-heading text-3xl tracking-tight text-white">
-              Athercolt
+            <Link to="/" className="flex items-center gap-2 font-heading text-3xl tracking-tight text-white mb-6">
+              <img src="/athercolt-logo.png" alt="Aether Colt Logo" className="h-10 w-auto mix-blend-screen brightness-0 invert" />
+              Aether Colt
             </Link>
             <p className="font-body text-slate-400 text-sm leading-relaxed mt-6 max-w-sm">
               Building high-performance tech teams through world-class engineering services and elite talent recruitment.
             </p>
             <a
-              href="mailto:hello@athercolt.com"
+              href="mailto:hello@aethercolt.com"
               data-testid="footer-email"
               className="inline-flex items-center gap-2 text-blue-400 font-body text-sm font-semibold mt-6 hover:text-blue-300 transition-colors"
             >
-              hello@athercolt.com <ArrowUpRight size={14} />
+              hello@aethercolt.com <ArrowUpRight size={14} />
             </a>
           </div>
 
@@ -78,7 +79,7 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="border-t border-slate-800 mt-16 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="font-body text-xs text-slate-500">
-            &copy; {new Date().getFullYear()} Athercolt. All rights reserved.
+            &copy; {new Date().getFullYear()} Aether Colt. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
             <a href="#" data-testid="footer-privacy" className="font-body text-xs text-slate-500 hover:text-slate-300 transition-colors">Privacy</a>

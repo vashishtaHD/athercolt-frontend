@@ -45,12 +45,12 @@ export default function About() {
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
-              <p className="font-body text-xs font-bold tracking-[0.25em] uppercase text-blue-700 mb-4">About Athercolt</p>
+              <p className="font-body text-xs font-bold tracking-[0.25em] uppercase text-blue-700 mb-4">About Aether Colt</p>
               <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl text-slate-900 mb-6 leading-[1.05]">
                 The Team Behind the Teams.
               </h1>
               <p className="font-body text-base text-slate-500 leading-relaxed mb-8">
-                Founded in 2019, Athercolt was born from a simple observation: the best technology companies are defined by the quality of their people and processes. We bridge the gap between engineering ambition and execution.
+                Founded in 2019, Aether Colt was born from a simple observation: the best technology companies are defined by the quality of their people and processes. We bridge the gap between engineering ambition and execution.
               </p>
               <p className="font-body text-sm text-slate-400 leading-relaxed">
                 Today, we serve over 50 enterprise clients across 12 countries, providing both engineering services and elite talent acquisition that powers the next generation of technology products.
@@ -65,7 +65,7 @@ export default function About() {
               <div className="aspect-[4/3] bg-slate-100 overflow-hidden">
                 <img
                   src="https://images.unsplash.com/photo-1690383922983-90d7a4658ef3?w=800&h=600&fit=crop"
-                  alt="Athercolt team collaborating"
+                  alt="Aether Colt team collaborating"
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -183,7 +183,7 @@ export default function About() {
         data-testid="about-cta"
       >
         <div className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
-          <h2 className="font-heading text-3xl sm:text-4xl text-white mb-6">Join the Athercolt Team</h2>
+          <h2 className="font-heading text-3xl sm:text-4xl text-white mb-6">Join the Aether Colt Team</h2>
           <p className="font-body text-base text-blue-100 max-w-lg mx-auto mb-10">
             We're always looking for exceptional people who want to make an impact.
           </p>

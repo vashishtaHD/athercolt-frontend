@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { Mail, MapPin, Phone, ArrowRight, CheckCircle, Loader2 } from "lucide-react";
 
 const CONTACT_INFO = [
-  { icon: Mail, label: "hello@athercolt.com", href: "mailto:hello@athercolt.com" },
+  { icon: Mail, label: "hello@aethercolt.com", href: "mailto:hello@aethercolt.com" },
   { icon: Phone, label: "+1 (555) 847-2930", href: "tel:+15558472930" },
   { icon: MapPin, label: "350 Fifth Avenue, New York, NY 10118", href: "#" },
 ];
