@@ -47,13 +47,15 @@ export default function ApplicationModal({ job, isOpen, onClose }) {
       Object.entries(form).forEach(([key, value]) => {
         formData.append(key, value);
       });
+      if (job?.title) {
+        formData.append("jobTitle", job.title);
+      }
       if (file) {
         formData.append("resume", file);
       }
 
-      const apiUrl = import.meta.env.VITE_APPLICATIONS_API_URL || "/api/applications";
       // Ensure the worker is configured to accept POST at this endpoint
-      const response = await fetch(apiUrl, {
+      const response = await fetch("/api/applications", {
         method: "POST",
         body: formData, // fetch will set the correct multipart/form-data boundary
       });

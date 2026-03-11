@@ -101,8 +101,8 @@ export default function Careers() {
                   data-testid={`filter-${cat.toLowerCase().replace(/\s+&\s+/g, '-').replace(/\s+/g, '-')}`}
                   onClick={() => setFilter(cat)}
                   className={`font-body text-xs font-semibold tracking-wider px-4 py-2 transition-colors duration-200 border ${filter === cat
-                      ? "bg-blue-700 text-white border-blue-700"
-                      : "bg-white text-slate-500 border-slate-200 hover:border-blue-300 hover:text-blue-700"
+                    ? "bg-blue-700 text-white border-blue-700"
+                    : "bg-white text-slate-500 border-slate-200 hover:border-blue-300 hover:text-blue-700"
                     }`}
                 >
                   {cat}
@@ -113,7 +113,7 @@ export default function Careers() {
 
           {/* Job Count */}
           <p className="font-body text-xs text-slate-400 mb-6">
-            Showing <span className="text-slate-700 font-semibold">{filteredJobs.length}</span> of {dailyJobs.length} daily role{dailyJobs.length !== 1 ? "s" : ""}
+            Showing <span className="text-slate-700 font-semibold">{filteredJobs.length}</span> of {dailyJobs.length} role{dailyJobs.length !== 1 ? "s" : ""}
           </p>
 
           {/* Job Cards */}
@@ -164,7 +164,7 @@ export default function Careers() {
                           </span>
                         </div>
 
-                        <div className="flex flex-wrap gap-1.5 mb-5 flex-1">
+                        <div className="flex flex-wrap gap-1.5 mb-5 h-full content-start">
                           {job.tags.map((tag) => (
                             <span
                               key={tag}
@@ -226,7 +226,7 @@ export default function Careers() {
                           </span>
                         </div>
 
-                        <div className="flex flex-wrap gap-1.5 mb-5 flex-1">
+                        <div className="flex flex-wrap gap-1.5 mb-5 h-full content-start">
                           {job.tags.map((tag) => (
                             <span
                               key={tag}

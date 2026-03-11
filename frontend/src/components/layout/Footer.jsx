@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Linkedin } from "lucide-react";
 
 const FOOTER_COLS = [
   {
@@ -38,18 +38,28 @@ export default function Footer() {
           {/* Brand */}
           <div className="lg:col-span-2">
             <Link to="/" className="inline-block mb-6">
-              <img src="/athercolt-logo-white.png" alt="Aether Colt Logo" className="h-16 w-auto" />
+              <img src="/athercolt-logo-white.png" alt="Aether Colt Inc Logo" className="h-16 w-auto" />
             </Link>
             <p className="font-body text-slate-400 text-sm leading-relaxed mt-6 max-w-sm">
               Building high-performance tech teams through world-class engineering services and elite talent recruitment.
             </p>
-            <a
-              href="mailto:hello@aethercolt.com"
-              data-testid="footer-email"
-              className="inline-flex items-center gap-2 text-blue-400 font-body text-sm font-semibold mt-6 hover:text-blue-300 transition-colors"
-            >
-              hello@aethercolt.com <ArrowUpRight size={14} />
-            </a>
+            <div className="mt-6 flex flex-col gap-2">
+              <span className="text-blue-400 font-body text-sm font-semibold hover:text-blue-300 transition-colors">
+                +1 6506183776
+              </span>
+              <a href="mailto:hr@aethercolt.com" className="inline-flex items-center gap-2 text-blue-400 font-body text-sm font-semibold hover:text-blue-300 transition-colors">
+                hr@aethercolt.com <ArrowUpRight size={14} />
+              </a>
+              <a href="https://www.aethercolt.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-blue-400 font-body text-sm font-semibold hover:text-blue-300 transition-colors">
+                www.aethercolt.com <ArrowUpRight size={14} />
+              </a>
+              <a href="https://www.linkedin.com/company/aethercolt/about/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-blue-400 font-body text-sm font-semibold hover:text-blue-300 transition-colors">
+                <Linkedin size={14} /> LinkedIn
+              </a>
+              <p className="text-slate-400 font-body text-sm">
+                Menlo Park, CA, 94025
+              </p>
+            </div>
           </div>
 
           {/* Link Columns */}
@@ -78,7 +88,7 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="border-t border-slate-800 mt-16 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="font-body text-xs text-slate-500">
-            &copy; {new Date().getFullYear()} Aether Colt. All rights reserved.
+            &copy; {new Date().getFullYear()} Aether Colt Inc. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
             <a href="#" data-testid="footer-privacy" className="font-body text-xs text-slate-500 hover:text-slate-300 transition-colors">Privacy</a>

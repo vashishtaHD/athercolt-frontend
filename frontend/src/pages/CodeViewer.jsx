@@ -157,7 +157,7 @@ export default function CodeViewer() {
         <div className="max-w-[1600px] mx-auto px-6 lg:px-8 py-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
             <p className="font-body text-xs font-bold tracking-[0.25em] uppercase text-blue-700 mb-1">Source Code</p>
-            <h1 className="font-heading text-2xl sm:text-3xl text-slate-900">Aether Colt Codebase</h1>
+            <h1 className="font-heading text-2xl sm:text-3xl text-slate-900">Aether Colt Inc Codebase</h1>
             <p className="font-body text-xs text-slate-400 mt-1">
               {files.length} files &middot; React + FastAPI + Tailwind CSS + Framer Motion
             </p>

@@ -19,7 +19,7 @@ const TALENT = [
   { icon: UserSearch, title: "Technical Screening", desc: "Rigorous vetting for engineering excellence." },
   { icon: Briefcase, title: "Executive Search", desc: "C-suite and VP-level tech leadership." },
   { icon: FileCheck, title: "Contract & Full-Time", desc: "Flexible engagement models for any scale." },
-  { icon: Users, title: "Embedded Hiring", desc: "On-site teams integrated with your culture." },
+  { icon: Users, title: "Diversity Hiring", desc: "Building inclusive teams that reflect your values" },
 ];
 
 const STEPS = [
@@ -29,7 +29,16 @@ const STEPS = [
   { num: "04", icon: Scale, title: "Scale", desc: "Grow your team and technology in lockstep." },
 ];
 
-const LOGOS = ["Stripe", "Vercel", "Linear", "Notion", "Figma", "Supabase"];
+const LOGOS = [
+  "Microsoft", "Amazon Web Services", "IBM", "Cisco", "Oracle", "Intel", "Salesforce",
+  "JPMorgan Chase", "Goldman Sachs", "Morgan Stanley", "Bank of America", "Wells Fargo", "Citibank",
+  "UnitedHealth Group", "CVS Health", "Pfizer", "Johnson & Johnson", "Cigna",
+  "Walmart", "Target", "Costco", "Nike", "eBay", "Accenture",
+  "Deloitte", "Capgemini", "Cognizant", "Infosys", "Tata Consultancy Services", "Wipro",
+  "HCLTech", "Tech Mahindra", "NTT DATA", "LTIMindtree",
+  "AT&T", "Verizon Communications", "T-Mobile US", "Comcast", "Charter Communications",
+  "Cox Communications", "Altice USA", "Frontier Communications", "Lumen Technologies", "Dish Network"
+];
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -123,14 +132,14 @@ export default function Home() {
                 <div className="aspect-[4/3] overflow-hidden bg-slate-50">
                   <img
                     src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80"
-                    alt="Aether Colt - High performance engineering"
+                    alt="Aether Colt Inc - High performance engineering"
                     className="w-full h-full object-cover"
                   />
                 </div>
                 {/* Accent overlay block */}
                 <div className="absolute -bottom-4 -left-4 w-28 h-28 bg-blue-700 hidden lg:flex items-end justify-start p-4">
                   <span className="font-body text-[10px] font-bold tracking-widest uppercase text-white/80 leading-tight">
-                    Since<br />2019
+                    Since<br />2020
                   </span>
                 </div>
               </div>
@@ -227,7 +236,7 @@ export default function Home() {
           >
             <img
               src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80"
-              alt="Aether Colt workspace"
+              alt="Aether Colt Inc workspace"
               className="w-full h-full object-cover"
             />
           </motion.div>
@@ -286,18 +295,17 @@ export default function Home() {
           <p className="font-body text-xs font-bold tracking-[0.25em] uppercase text-slate-400 text-center mb-10">
             Trusted by leading teams
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-10 lg:gap-16">
-            {LOGOS.map((logo) => (
-              <motion.span
-                key={logo}
-                data-testid={`trust-logo-${logo.toLowerCase()}`}
-                className="font-body text-xl font-bold text-slate-300 cursor-default select-none"
-                whileHover={{ color: "#1D4ED8" }}
-                transition={{ duration: 0.2 }}
-              >
-                {logo}
-              </motion.span>
-            ))}
+          <div className="relative flex overflow-hidden w-full group select-none [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+            <div className="flex items-center gap-10 lg:gap-16 w-max animate-marquee group-hover:[animation-play-state:paused] pr-10 lg:pr-16">
+              {[...LOGOS, ...LOGOS].map((logo, i) => (
+                <span
+                  key={`${logo}-${i}`}
+                  className="font-body text-xl font-bold text-slate-300 whitespace-nowrap hover:text-blue-600 transition-colors duration-200"
+                >
+                  {logo}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
       </motion.section>

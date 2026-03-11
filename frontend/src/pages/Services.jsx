@@ -86,8 +86,8 @@ const RECRUITMENT = [
   },
   {
     icon: Users,
-    title: "Embedded Hiring",
-    desc: "Our recruiters integrate with your internal team, acting as an extension of your talent acquisition function.",
+    title: "Diversity Hiring",
+    desc: "Building inclusive teams that reflect your values",
   },
 ];
 

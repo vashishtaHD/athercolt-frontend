@@ -27,15 +27,9 @@ const STATS = [
   { value: "200+", label: "Engineers Placed" },
   { value: "50+", label: "Enterprise Clients" },
   { value: "98%", label: "Client Retention" },
-  { value: "12", label: "Countries Served" },
+  { value: "50", label: "US States Served" },
 ];
 
-const TEAM = [
-  { name: "Marcus Chen", role: "CEO & Founder", img: "https://images.unsplash.com/photo-1769636929261-e913ed023c83?w=400&h=400&fit=crop&crop=face" },
-  { name: "Sarah Mitchell", role: "VP of Engineering", img: "https://images.unsplash.com/photo-1769636929388-99eff95d3bf1?w=400&h=400&fit=crop&crop=face" },
-  { name: "David Park", role: "Head of Talent", img: "https://images.unsplash.com/photo-1762522927402-f390672558d8?w=400&h=400&fit=crop&crop=face" },
-  { name: "Elena Rodriguez", role: "Director of Operations", img: "https://images.unsplash.com/photo-1769636930047-4478f12cf430?w=400&h=400&fit=crop&crop=face" },
-];
 
 export default function About() {
   return (
@@ -45,15 +39,15 @@ export default function About() {
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
-              <p className="font-body text-xs font-bold tracking-[0.25em] uppercase text-blue-700 mb-4">About Aether Colt</p>
+              <p className="font-body text-xs font-bold tracking-[0.25em] uppercase text-blue-700 mb-4">About Aether Colt Inc</p>
               <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl text-slate-900 mb-6 leading-[1.05]">
                 The Team Behind the Teams.
               </h1>
               <p className="font-body text-base text-slate-500 leading-relaxed mb-8">
-                Founded in 2019, Aether Colt was born from a simple observation: the best technology companies are defined by the quality of their people and processes. We bridge the gap between engineering ambition and execution.
+                Founded in 2019, Aether Colt Inc was born from a simple observation: the best technology companies are defined by the quality of their people and processes. We bridge the gap between engineering ambition and execution.
               </p>
               <p className="font-body text-sm text-slate-400 leading-relaxed">
-                Today, we serve over 50 enterprise clients across 12 countries, providing both engineering services and elite talent acquisition that powers the next generation of technology products.
+                Today, we serve over 50 enterprise clients across the USA, providing both engineering services and elite talent acquisition that powers the next generation of technology products.
               </p>
             </motion.div>
             <motion.div
@@ -65,7 +59,7 @@ export default function About() {
               <div className="aspect-[4/3] bg-slate-100 overflow-hidden">
                 <img
                   src="https://images.unsplash.com/photo-1690383922983-90d7a4658ef3?w=800&h=600&fit=crop"
-                  alt="Aether Colt team collaborating"
+                  alt="Aether Colt Inc team collaborating"
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -132,48 +126,7 @@ export default function About() {
         </div>
       </section>
 
-      {/* Team */}
-      <section className="bg-slate-50/70 py-24 lg:py-32" data-testid="team-section">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <motion.div
-            initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }}
-            variants={fadeUp}
-            className="text-center mb-16"
-          >
-            <p className="font-body text-xs font-bold tracking-[0.25em] uppercase text-blue-700 mb-4">Leadership</p>
-            <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl text-slate-900">Meet Our Team</h2>
-          </motion.div>
 
-          <motion.div
-            initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }}
-            variants={staggerContainer}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
-          >
-            {TEAM.map((member, i) => (
-              <motion.div
-                key={member.name}
-                variants={fadeUp}
-                custom={i}
-                data-testid={`team-member-${i}`}
-                whileHover={{ y: -4 }}
-                className="bg-white border border-slate-100 hover:border-blue-200 hover:shadow-lg transition-all duration-300 overflow-hidden"
-              >
-                <div className="aspect-square bg-slate-100">
-                  <img
-                    src={member.img}
-                    alt={member.name}
-                    className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
-                  />
-                </div>
-                <div className="p-6">
-                  <h4 className="font-heading text-lg text-slate-900">{member.name}</h4>
-                  <p className="font-body text-xs text-slate-500 mt-1">{member.role}</p>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
 
       {/* CTA */}
       <motion.section
@@ -183,7 +136,7 @@ export default function About() {
         data-testid="about-cta"
       >
         <div className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
-          <h2 className="font-heading text-3xl sm:text-4xl text-white mb-6">Join the Aether Colt Team</h2>
+          <h2 className="font-heading text-3xl sm:text-4xl text-white mb-6">Join the Aether Colt Inc Team</h2>
           <p className="font-body text-base text-blue-100 max-w-lg mx-auto mb-10">
             We're always looking for exceptional people who want to make an impact.
           </p>

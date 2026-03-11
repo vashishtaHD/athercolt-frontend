@@ -1,15 +1,16 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Mail, MapPin, Phone, ArrowRight, CheckCircle, Loader2 } from "lucide-react";
+import { Mail, MapPin, Phone, ArrowRight, CheckCircle, Loader2, ChevronDown, Linkedin } from "lucide-react";
 
 const CONTACT_INFO = [
-  { icon: Mail, label: "hello@aethercolt.com", href: "mailto:hello@aethercolt.com" },
-  { icon: Phone, label: "+1 (555) 847-2930", href: "tel:+15558472930" },
-  { icon: MapPin, label: "350 Fifth Avenue, New York, NY 10118", href: "#" },
+  { icon: Mail, label: "hr@aethercolt.com", href: "mailto:hr@aethercolt.com" },
+  { icon: Phone, label: "+1 6503009721", href: "tel:+16503009721" },
+  { icon: Linkedin, label: "LinkedIn", href: "https://www.linkedin.com/company/aethercolt/about/" },
+  { icon: MapPin, label: "Menlo Park , CA , 94025", href: "#" },
 ];
 
 export default function Contact() {
-  const [form, setForm] = useState({ name: "", email: "", company: "", message: "" });
+  const [form, setForm] = useState({ name: "", email: "", phone: "", inquiryType: "", company: "", message: "" });
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
@@ -20,8 +21,7 @@ export default function Contact() {
     setSubmitting(true);
 
     try {
-      const apiUrl = import.meta.env.VITE_CONTACT_API_URL || "/api/contact";
-      const response = await fetch(apiUrl, {
+      const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form)
@@ -77,7 +77,7 @@ export default function Contact() {
                       data-testid="contact-reset-button"
                       onClick={() => {
                         setSubmitted(false);
-                        setForm({ name: "", email: "", company: "", message: "" });
+                        setForm({ name: "", email: "", phone: "", inquiryType: "", company: "", message: "" });
                       }}
                       className="font-body text-xs font-semibold tracking-widest uppercase text-blue-700 hover:text-blue-800 transition-colors"
                     >
@@ -113,8 +113,38 @@ export default function Contact() {
                         />
                       </div>
                     </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                      <div>
+                        <label className="font-body text-xs font-bold tracking-wider uppercase text-slate-500 block mb-2">Phone Number</label>
+                        <input
+                          data-testid="contact-input-phone"
+                          name="phone"
+                          type="tel"
+                          value={form.phone}
+                          onChange={handleChange}
+                          className="w-full border-b border-slate-200 bg-transparent px-0 py-3 font-body text-sm text-slate-900 focus:border-blue-600 focus:outline-none transition-colors"
+                          placeholder="+1 (555) 000-0000"
+                        />
+                      </div>
+                      <div className="relative">
+                        <label className="font-body text-xs font-bold tracking-wider uppercase text-slate-500 block mb-2">What are you looking for?</label>
+                        <select
+                          data-testid="contact-input-inquiry"
+                          name="inquiryType"
+                          value={form.inquiryType}
+                          onChange={handleChange}
+                          required
+                          className="w-full border-b border-slate-200 bg-transparent px-0 py-3 font-body text-sm text-slate-900 focus:border-blue-600 focus:outline-none transition-colors appearance-none cursor-pointer pr-8"
+                        >
+                          <option value="" disabled>Select an option</option>
+                          <option value="recruiting">Recruiting</option>
+                          <option value="services">Services</option>
+                        </select>
+                        <ChevronDown size={16} className="absolute right-0 bottom-3.5 text-slate-400 pointer-events-none" />
+                      </div>
+                    </div>
                     <div>
-                      <label className="font-body text-xs font-bold tracking-wider uppercase text-slate-500 block mb-2">Company</label>
+                      <label className="font-body text-xs font-bold tracking-wider uppercase text-slate-500 block mb-2">Company (Optional)</label>
                       <input
                         data-testid="contact-input-company"
                         name="company"
@@ -165,7 +195,7 @@ export default function Contact() {
                 <div>
                   <h3 className="font-heading text-2xl text-slate-900 mb-6">Get in Touch</h3>
                   <p className="font-body text-sm text-slate-500 leading-relaxed">
-                    Our team is available Monday through Friday, 9am to 6pm EST. We typically respond within 24 hours.
+                    Our team is available Monday through Friday, 9am to 6pm PST. We typically respond within 24 hours.
                   </p>
                 </div>
 
@@ -191,7 +221,7 @@ export default function Contact() {
                 <div className="aspect-[4/3] bg-slate-100 border border-slate-200 flex items-center justify-center">
                   <div className="text-center">
                     <MapPin size={32} className="text-slate-300 mx-auto mb-2" />
-                    <p className="font-body text-xs text-slate-400">New York, NY</p>
+                    <p className="font-body text-xs text-slate-400">Menlo Park, CA</p>
                   </div>
                 </div>
               </div>

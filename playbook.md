@@ -1,194 +1,125 @@
-# Setup Playbook: Forms + Cloudflare Worker + Resend + Google Sheets + R2
+# Setup Playbook: Cloudflare Pages Functions + Resend + Google Sheets + R2
 
-Use this playbook to replicate the same architecture on a different website.
+Use this playbook to replicate the same serverless architecture on a different website using Cloudflare Pages.
 
 ## 1) Goal
 
 Implement a serverless submission pipeline where:
-- frontend forms submit to a Cloudflare Worker endpoint
-- Worker sends email notifications (Resend)
-- Worker appends submissions to Google Sheets
-- careers form uploads resumes to Cloudflare R2
+- Frontend forms submit to a Cloudflare Pages Function endpoint
+- Function sends email notifications (Resend)
+- Function appends submissions to Google Sheets via Webhook
+- Careers form uploads resumes to Cloudflare R2 bucket
 
 ## 2) Reference Files In This Repo
 
-- Worker API: `cloudflare-worker/src/index.js`
-- Worker config: `cloudflare-worker/wrangler.toml`
-- Google Apps Script webhook: `cloudflare-worker/google-apps-script.gs`
+- Pages API routes: `frontend/functions/api/`
+  - `contact.js`
+  - `applications.js`
+  - `health.js`
+- Google Apps Script webhook: `backend-scripts/google-apps-script.gs`
 - Contact form: `frontend/src/pages/Contact.jsx`
 - Careers form: `frontend/src/components/ApplicationDrawer.jsx`
 - Frontend env example: `frontend/.env.example`
-- Cloudflare guide: `CLOUDFLARE_SETUP.md`
-- CI deploy workflow: `.github/workflows/deploy-cloudflare.yml`
 
 ## 3) High-Level Architecture
 
 1. User submits `Contact` form (JSON) or `Careers` form (multipart with resume).
-2. Frontend calls `POST /api/contact` on Cloudflare Worker.
-3. Worker validates payload.
-4. Worker uploads resume file to R2 for career applications.
-5. Worker sends notification email via Resend.
-6. Worker posts payload to Apps Script webhook.
+2. Frontend calls `/api/contact` or `/api/applications` natively on the same Cloudflare domain.
+3. Pages Function validates payload.
+4. Pages Function uploads resume file to R2 for career applications.
+5. Pages Function sends notification email via Resend API.
+6. Pages Function posts payload to Google Apps Script webhook.
 7. Apps Script appends row to Google Sheet.
 
 ## 4) Prerequisites
 
-- Cloudflare account with Workers, Pages, and R2 enabled
-- GitHub repository connected to Cloudflare
+- Cloudflare account with Pages and R2 enabled
+- GitHub repository connected to Cloudflare Pages
 - Resend account with API key and verified sender domain/email
 - Google account with Google Sheet + Apps Script access
 - Custom domain (recommended)
 
-## 5) Frontend Integration Pattern
+## 5) Cloudflare Pages Project Setup
 
-### Contact Form
-- Submit JSON to `VITE_CONTACT_API_URL` (fallback `/api/contact`)
-- Required fields: `firstName`, `lastName`, `email`
+Instead of deploying a separate worker, the API is built directly into the frontend deploy.
 
-### Careers Form
-- Submit `multipart/form-data`
-- Include required file field named `resume`
-- Include fields:
-  - `firstName`, `lastName`, `email`, `phone`
-  - `currentLocation`, `willingToRelocate`, `sponsorshipRequired`
-  - optional `visaStatus`, `message`
-  - `source=career_application`
+1. Create a **Cloudflare Pages** project linked to your repository.
+2. Select the `Vite` framework preset.
+   - Root directory: `frontend`
+   - Build command: `npm run build`
+   - Build output directory: `dist`
 
-### Frontend Env Var
+### 5.1 Environment Variables
+Go to Cloudflare Dashboard -> Pages -> Your App -> Settings -> Variables and Secrets.
+Add the following variables (for both Production and Preview if needed):
 
-Set in Pages:
-- `VITE_CONTACT_API_URL=https://api.<your-domain>/api/contact`
+- `RESEND_API_KEY`: Your Resend API token.
+- `NOTIFY_FROM_EMAIL`: Verified sender email (e.g. `noreply@yourdomain.com`).
+- `NOTIFY_TO_EMAIL`: The recipient inbox.
+- `NOTIFY_SUBJECT_PREFIX`: A short prefix for emails (e.g. `Aethercolt`).
+- `GOOGLE_SHEETS_WEBHOOK_URL`: The deployed Google Apps Script URL.
+- `GOOGLE_SHEETS_WEBHOOK_TOKEN`: A secret token you define to match the App Script.
+- `MAX_RESUME_SIZE_BYTES`: `10485760` (10MB).
+- `R2_PUBLIC_BASE_URL`: (Optional) public URL for resumes if bucket is public.
 
-## 6) Worker Setup
+*Note: You do not need `VITE_CONTACT_API_URL` unless you are testing locally without wrangler.*
 
-### 6.1 Configure `wrangler.toml`
+### 5.2 R2 Bucket Binding
+1. Create a bucket in Cloudflare R2 (e.g. `company-resumes-prod`).
+2. Go to Cloudflare Dashboard -> Pages -> Your App -> Settings -> Functions -> **R2 bucket bindings**.
+3. Variable name: `RESUME_BUCKET`
+4. R2 bucket: Select your created bucket.
 
-Update:
-- `name` to your Worker project name
-- `[[r2_buckets]]` with real bucket names
-- `[vars]` values:
-  - `ALLOWED_ORIGINS=https://www.<domain>,https://<domain>`
-  - `NOTIFY_SUBJECT_PREFIX=<brand>`
-  - `MAX_RESUME_SIZE_BYTES=10485760`
-  - `R2_PUBLIC_BASE_URL=` (optional)
+## 6) Google Sheets Setup
 
-### 6.2 Worker Secrets
+1. Create a Google Sheet. At the bottom, create two tabs named exactly: **Contact** and **Careers**.
+2. **Setup the Header Rows**:
+   In the **Contact** tab, add these column names horizontally in Row 1:
+   `Timestamp`, `name`, `email`, `phone`, `inquiryType`, `company`, `message`, `source`
+   
+   In the **Careers** tab, add these column names horizontally in Row 1:
+   `Timestamp`, `name`, `email`, `phone`, `location`, `willingToRelocate`, `sponsorshipRequired`, `visaStatus`, `linkedin`, `resumeInfo`, `source`
 
-Add in Cloudflare Worker settings:
-- `RESEND_API_KEY`
-- `NOTIFY_TO_EMAIL`
-- `NOTIFY_FROM_EMAIL`
-- `GOOGLE_SHEETS_WEBHOOK_URL`
-- `GOOGLE_SHEETS_WEBHOOK_TOKEN`
-
-## 7) R2 Setup
-
-1. Create production bucket and preview/dev bucket.
-2. Put those names in `wrangler.toml` under `[[r2_buckets]]`.
-3. Redeploy Worker.
-4. Optional: make bucket public or attach custom domain, then set `R2_PUBLIC_BASE_URL`.
-
-## 8) Google Sheets Setup
-
-1. Create Google Sheet and target tab.
-2. Open Apps Script and paste `cloudflare-worker/google-apps-script.gs`.
-3. Set Script Properties:
-   - `SHEET_ID`
-   - `SHEET_NAME`
-   - `WEBHOOK_TOKEN`
-4. Deploy Apps Script as Web App:
+3. Go to Extensions -> Apps Script.
+4. Paste the contents of `backend-scripts/google-apps-script.gs`.
+5. Define Script Properties (Project Settings -> Script Properties):
+   - `SHEET_ID`: The ID from your Google Sheet URL (the long string between `/d/` and `/edit`).
+   - `SHEET_NAME_CONTACT`: `Contact`
+   - `SHEET_NAME_CAREERS`: `Careers`
+   - `WEBHOOK_TOKEN`: A secure random string matching `GOOGLE_SHEETS_WEBHOOK_TOKEN` in Cloudflare.
+6. Deploy -> New Deployment -> Web App.
    - Execute as: `Me`
    - Access: `Anyone`
-5. Copy web app URL to Worker secret `GOOGLE_SHEETS_WEBHOOK_URL`.
-6. Set matching token in Worker secret `GOOGLE_SHEETS_WEBHOOK_TOKEN`.
+6. Copy the resulting Web App URL into the `GOOGLE_SHEETS_WEBHOOK_URL` variable in Cloudflare.
 
-## 9) Resend Setup
+## 7) Resend Setup
 
 1. Create API key.
-2. Verify sending domain/email.
-3. Set Worker secrets:
-   - `RESEND_API_KEY`
-   - `NOTIFY_FROM_EMAIL` (verified sender)
-   - `NOTIFY_TO_EMAIL` (recipient mailbox)
+2. Verify sending domain/email within Resend.
+3. Update `NOTIFY_FROM_EMAIL` to match this verified domain.
 
-## 10) Cloudflare Pages Frontend Setup
-
-Use:
-- Framework preset: `Vite`
-- Root directory: `frontend`
-- Build command: `npm run build`
-- Build output directory: `dist`
-
-Add env var:
-- `VITE_CONTACT_API_URL=https://api.<your-domain>/api/contact`
-
-Note:
-- This repo includes `frontend/.npmrc` with `legacy-peer-deps=true` to avoid npm peer conflict in CI.
-
-## 11) Domain Routing
-
-- Frontend domain:
-  - `www.<domain>` -> Cloudflare Pages project
-- API domain:
-  - `api.<domain>` -> Worker route `api.<domain>/*`
-
-## 12) One-Click Deploy Options
-
-### GitHub Actions
-- Workflow: `.github/workflows/deploy-cloudflare.yml`
-- Required repo secrets:
-  - `CLOUDFLARE_API_TOKEN`
-  - `CLOUDFLARE_ACCOUNT_ID`
-  - `CLOUDFLARE_PAGES_PROJECT`
-
-### Local Script
-- Run: `.\deploy.ps1 -PagesProjectName "<pages-project-name>" -Branch "main"`
-
-## 13) Verification Checklist
+## 8) Verification Checklist
 
 Run these checks after deploy:
 
-1. `GET https://api.<domain>/api/health` returns `{ ok: true }`.
+1. `GET https://your-domain.com/api/health` returns `{ ok: true }`.
 2. Contact form submit:
-   - success response from Worker
-   - email received
-   - row in Google Sheet
+   - Success modal appears on site.
+   - Email received in inbox.
+   - Row appears in Google Sheet representing the payload.
 3. Careers form submit with resume:
-   - success response from Worker
-   - email received with resume metadata
-   - row in Google Sheet with resume fields
-   - object present in R2 bucket
-4. CORS:
-   - browser requests succeed from production domain
+   - Success modal appears.
+   - Email received with resume metadata/URL.
+   - Row appears in Google Sheet.
+   - Resume file appears in R2 Dashboard.
 
-## 14) Common Errors And Fixes
+## 9) Common Errors And Fixes
 
-- `R2 code 10042`:
-  - R2 not enabled or bucket names still placeholders in `wrangler.toml`.
-- `npm ERESOLVE` on Pages:
-  - ensure latest commit includes `frontend/.npmrc`.
-- Worker returns CORS errors:
-  - fix `ALLOWED_ORIGINS`.
-- Resend fails:
-  - verify sender and API key.
-- Google Sheets webhook fails:
-  - verify Apps Script deployment URL and matching token.
-
-## 15) Reuse Procedure For A New Website
-
-1. Copy `cloudflare-worker/` folder into new project.
-2. Recreate forms using same payload contract.
-3. Set frontend env `VITE_CONTACT_API_URL`.
-4. Configure Worker vars/secrets.
-5. Configure R2 bucket binding.
-6. Deploy Apps Script webhook and set URL/token.
-7. Deploy Worker.
-8. Deploy Pages frontend.
-9. Run verification checklist.
-
-## 16) Security Notes
-
-- Never expose Resend key or Google webhook token in frontend code.
-- Keep secrets only in Worker secret storage.
-- Prefer private R2 unless public resume URLs are explicitly required.
-- Use strict `ALLOWED_ORIGINS` in production.
+- `Missing required fields` (400)
+  - The frontend form didn't pass the required fields configured in the `api/*.js` file.
+- `Resume too large` (413)
+  - Ensure the file uploaded is underneath `MAX_RESUME_SIZE_BYTES`.
+- `Server Error` (500)
+  - Frequently caused by a missing environment variable or a misconfigured R2 bucket binding. Check the Pages deployment logs natively in the Cloudflare Dashboard.
+- `R2 Bucket not bound`
+  - You forgot to attach `RESUME_BUCKET` under Settings -> Functions.
